@@ -13,17 +13,19 @@
         android:layout_height="match_parent"
         android:layout_alignParentRight="true"
         android:layout_marginTop="-6dp"
-        android:background="#8034eb"
+        android:background="#61AC8A"
         android:text="Toast"
         android:textAllCaps="true"
-        android:textSize="21dp" />
+        android:textColorHighlight="#FFEB3B"
+        android:textSize="21dp"
+        app:rippleColor="#120E0E" />
 
     <Button
         android:id="@+id/count_button"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
-        android:background="#8034eb"
+        android:background="#10E383"
         android:text="Count"
         android:textAllCaps="true"
         android:textSize="21dp" />
