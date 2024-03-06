@@ -26,7 +26,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 
 @Composable
-fun Kawasaki(navController: NavController){
+fun Honda(navController: NavController){
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
@@ -38,7 +38,7 @@ fun Kawasaki(navController: NavController){
             fontFamily = FontFamily.Monospace
         )
         Image(
-            painter = painterResource(id = R.drawable.lexusrx500),
+            painter = painterResource(id = R.drawable.kawa_photo),
             contentDescription = null,
             modifier = Modifier
                 .padding(16.dp)

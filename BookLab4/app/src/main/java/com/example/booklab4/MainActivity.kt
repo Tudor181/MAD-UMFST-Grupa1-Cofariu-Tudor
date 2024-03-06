@@ -1,192 +1,145 @@
-package com.example.calculatorlab4
+package com.example.bookapp
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.TextUnit
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.example.calculatorlab4.ui.theme.CalculatorLab4Theme
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.navigation.NavDestination
+import androidx.navigation.NavDestination.Companion.hierarchy
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
+import com.example.booklab4.Honda
+import com.example.booklab4.Kawasaki
+import com.example.booklab4.Yamaha
+import com.example.booklab4.ui.theme.BookLab4Theme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            CalculatorLab4Theme {
+            BookLab4Theme {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    CalculatorComponent()
+                    val navController = rememberNavController()
+                       NavHost(navController = navController , startDestination = "FirstPage"){
+                           composable("FirstPage"){
+                               Kawasaki(navController)
+                           }
+                           composable("SecondPage"){
+                               Honda(navController)
+                           }
+                           composable("ThirdPage"){
+                               Yamaha(navController)
+                           }
+                       }
                 }
             }
         }
     }
 }
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-
-    Column(
-        modifier = Modifier.fillMaxWidth(),
-//            .background(Color.Red),
-
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        Text(
-            text = "Hello $name!",
-            modifier = modifier,
-            color = Color.Blue
-        )
-    }
-}
-
-@Composable
-fun mySpacer(height:Boolean, value:Float = 8f){
-
-    Spacer(modifier = if (height) Modifier.height(value.dp) else Modifier.width(value.dp))
-}
-@Composable
-fun CalculatorComponent() {
-    var number1 by remember { mutableStateOf("") }
-
-    var number2 by remember { mutableStateOf("") }
-
-    var result by remember {mutableStateOf(0)}
-
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(start = 16.dp, top = 16.dp, end = 16.dp),
-        horizontalAlignment = Alignment.Start,
-        verticalArrangement = Arrangement.Top,
-    ) {
-        OutlinedTextField(
-            modifier = Modifier.fillMaxWidth(),
-            value = number1,
-            label = { Text(text = "1 number") },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-            onValueChange = { value ->
-                number1 = value
-            }
-        )
-        mySpacer(true)
-        OutlinedTextField(
-            modifier = Modifier.fillMaxWidth(),
-            value = number2,
-            label = { Text(text = "2 number") },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-            onValueChange = { value ->
-                number2 = value
-            }
-        )
-
-        mySpacer(true)
-
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceEvenly
-        )
-        {
-            Button(onClick = {
-            result = (number1.toIntOrNull() ?: 0) + (number2.toIntOrNull() ?: 0)
-            }) {
-                Text("+", fontSize = 32.sp)
-            }
-
-            Button(onClick = {
-                result = (number1.toIntOrNull() ?: 0) - (number2.toIntOrNull() ?: 0)
-            }) {
-                Text("-", fontSize = 32.sp)
-            }
-        }
-        mySpacer(true)
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceEvenly
-        ) {
-            Button(
-                onClick = {
-                result = (number1.toIntOrNull() ?: 0) / (number2.toIntOrNull() ?: 1) }
-            ) {
-                Text("/", fontSize = 32.sp, color = Color.White)
-            }
-            Button(onClick = {
-                result = (number1.toIntOrNull() ?: 0) * (number2.toIntOrNull() ?: 0)
-            }) {
-                Text("*", fontSize = 32.sp)
-            }
-        }
-
-        mySpacer(true, 25f)
-        Text(
-            text = "Result $result",
-            color = Color.Green,
-            style = TextStyle(fontSize = 50.sp),
-        )
-    }
-}
-
-@Composable
-fun CustomStyledButton(
-    onClick: () -> Unit,
-    text: String,
-    backgroundColor: Color,
-    textColor: Color
-) {
-    Button(
-        onClick = onClick,
-        modifier = Modifier
-            .height(64.dp)
-            .background(backgroundColor)
-            .padding(16.dp)
-    ) {
-        Text(
-            text = text,
-            fontSize = 32.sp,
-            color = textColor,
-            modifier = Modifier
-                .background(color = backgroundColor)
-                .padding(8.dp)
-        )
-    }
-}
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    CalculatorLab4Theme {
-        Greeting("Android")
-    }
-}
-
+//sealed class BottomBarScreen(
+//    val route: String,
+//    val title: String,
+//    val icon: ImageVector
+//) {
+//    object First : BottomBarScreen(
+//        route = "FirstPage",
+//        title = "FirstPage",
+//        icon = Icons.Default.Home
+//    )
+//    object Second : BottomBarScreen(
+//        route = "SecondPage",
+//        title = "SecondPage",
+//        icon = Icons.Default.Home
+//    )
+//    object Third : BottomBarScreen(
+//        route = "ThirdPage",
+//        title = "ThirdPage",
+//        icon = Icons.Default.Home
+//    )
+//}
+//
+//@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+//@Composable
+//fun MainScreen(){
+//    val navController = rememberNavController()
+//    Scaffold(
+//        bottomBar = { BottomBar(navController = navController)}
+//    ) {
+//        BottomNavGraph(navController = navController)
+//    }
+//}
+//
+//@Composable
+//fun BottomBar(navController: NavHostController){
+//    val screens = listOf(
+//        BottomBarScreen.First,
+//        BottomBarScreen.Second,
+//        BottomBarScreen.Third
+//    )
+//    val navBackStackEntry by navController.currentBackStackEntryAsState()
+//    val currentDestination = navBackStackEntry?.destination
+//
+//    NavigationBar {
+//        for (screen in screens) {
+//            AddItem(screen = screen, currentDestination = currentDestination, navController = navController)
+//        }
+//    }
+//}
+//
+//@Composable
+//fun RowScope.AddItem(
+//    screen: BottomBarScreen,
+//    currentDestination: NavDestination?,
+//    navController: NavHostController
+//){
+//    NavigationBarItem(label = {
+//        Text(text = screen.title)
+//    },
+//        icon = {
+//            Icon(imageVector = screen.icon, contentDescription = null)
+//        },
+//        selected = currentDestination?.hierarchy?.any{
+//            it.route == screen.route
+//        } == true,
+//        onClick = {
+//            navController.navigate(screen.route)
+//        }
+//    )
+//}
+//@Composable
+//fun BottomNavGraph(navController: NavHostController){
+//    NavHost(navController = navController, startDestination = BottomBarScreen.First.route){
+//        composable(BottomBarScreen.First.route){
+//            FirstPage(navController)
+//        }
+//        composable(BottomBarScreen.Second.route){
+//            SecondPage(navController)
+//        }
+//        composable(BottomBarScreen.Third.route){
+//            ThirdPage(navController)
+//        }
+//    }
+//}

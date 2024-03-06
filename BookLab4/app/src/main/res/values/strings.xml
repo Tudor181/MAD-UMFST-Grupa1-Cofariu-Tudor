@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">BookLab4</string>
+    <string name="rxDescription">
+        The Lexus RX450h 2022 is a hybrid luxury crossover SUV known for its performance, comfort, and efficiency. With its hybrid powertrain, luxurious interior, and advanced safety features, it offers a refined driving experience that combines power with fuel economy.
+    </string>
+    <string name="isDescription">
+The Lexus IS500 is a luxury sports sedan known for its blend of performance, sophistication, and comfort. Equipped with a powerful V8 engine, it delivers exhilarating acceleration and dynamic handling. Its luxurious interior features premium materials, advanced technology, and spacious seating, while safety is prioritized with a suite of driver assistance features.
+    </string>
+    <string name="lcDescription">
+
+The Lexus LC500 is a luxury grand tourer known for its stunning design, exhilarating performance, and premium features. With its powerful V8 engine, the LC500 delivers impressive acceleration and dynamic handling, offering an engaging driving experience.
+    </string>
+</resources>
