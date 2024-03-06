@@ -25,19 +25,10 @@ fun HomePage(navController: NavController){
             color = Color.Blue,
             fontSize = 20.sp,
         )
-//        Button(onClick = { navController.navigate("KawaPage") }) {
-//            Text("Get started with First Chapter! (Kawasaki)", fontSize = 15.sp)
-//        }
         Button(
             onClick = {
 
-                navController.navigate(Screens.Kawa.route) {
-                    popUpTo(navController.graph.) {
-                        saveState = true
-                    }
-                    launchSingleTop = true
-                    restoreState = true
-                }
+                navController.navigate(Screens.Kawa.route)
             }
             ) {
             Text("Get started with First Chapter! (Kawasaki)", fontSize = 15.sp)

@@ -45,7 +45,7 @@ fun Honda(navController: NavController){
                 .clip(RoundedCornerShape(16.dp))
         )
         Text(
-            text = stringResource(id = R.string.rxDescription),
+            text = stringResource(id = R.string.hondaDesc),
             modifier = Modifier.padding(16.dp),
             fontSize = 20.sp,
             textAlign = TextAlign.Center,

@@ -1,13 +1,12 @@
 <resources>
     <string name="app_name">BookLab4</string>
-    <string name="rxDescription">
-        The Lexus RX450h 2022 is a hybrid luxury crossover SUV known for its performance, comfort, and efficiency. With its hybrid powertrain, luxurious interior, and advanced safety features, it offers a refined driving experience that combines power with fuel economy.
+    <string name="kawaDesc">
+        The Kawasaki Ninja 650R, also called ER-6f or EХ-6, is a motorcycle in the Ninja series from the Japanese manufacturer Kawasaki Motors sold since 2006. The 2012 model drops the R suffix from its name. It is a middleweight, parallel-twin engined motorcycle, designed for normal use on paved roads.
     </string>
-    <string name="isDescription">
-The Lexus IS500 is a luxury sports sedan known for its blend of performance, sophistication, and comfort. Equipped with a powerful V8 engine, it delivers exhilarating acceleration and dynamic handling. Its luxurious interior features premium materials, advanced technology, and spacious seating, while safety is prioritized with a suite of driver assistance features.
-    </string>
-    <string name="lcDescription">
 
-The Lexus LC500 is a luxury grand tourer known for its stunning design, exhilarating performance, and premium features. With its powerful V8 engine, the LC500 delivers impressive acceleration and dynamic handling, offering an engaging driving experience.
+    <string name="hondaDesc">
+        The Honda 650 cc standard and sport motorcycles are a range of 649 cc inline-four standard and sport motorcycles made by Honda since 2013. The line includes the CB650F standard or naked bike, and the CBR650F sport bike that replaced outgoing CB600F Hornet.
     </string>
+    <string name="yamahaDesc">
+        The Yamaha YZF-R7 or OW-02 is a race homologation motorcycle made by Yamaha in limited production run of only 500 units worldwide. It was designed to compete in the Superbike World Championship and Suzuka 8 Hours endurance races. It has a 749 cc, DOHC 20-valve inline-four engine producing 79 kW.     </string>
 </resources>
