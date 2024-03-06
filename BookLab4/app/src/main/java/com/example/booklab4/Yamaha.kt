@@ -33,12 +33,12 @@ fun Yamaha(navController: NavController){
         horizontalAlignment = Alignment.CenterHorizontally
     ){
         Text(
-            text = "Lexus RX450H",
+            text = "Yamaha R7",
             fontSize = 32.sp,
             fontFamily = FontFamily.Monospace
         )
         Image(
-            painter = painterResource(id = R.drawable.kawa_photo),
+            painter = painterResource(id = R.drawable.yzf_r7_photo),
             contentDescription = null,
             modifier = Modifier
                 .padding(16.dp)
@@ -55,7 +55,7 @@ fun Yamaha(navController: NavController){
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceEvenly
         ){
-            Button(onClick = { navController.navigate("SecondPage") }) {
+            Button(onClick = { navController.navigate("KawaPage") }) {
                 Text("Next")
             }
         }

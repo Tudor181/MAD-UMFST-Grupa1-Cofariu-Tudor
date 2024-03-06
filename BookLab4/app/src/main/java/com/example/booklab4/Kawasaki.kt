@@ -33,7 +33,7 @@ fun Kawasaki(navController: NavController){
         horizontalAlignment = Alignment.CenterHorizontally
     ){
         Text(
-            text = "Lexus RX450H",
+            text = "Kawasaki 650",
             fontSize = 32.sp,
             fontFamily = FontFamily.Monospace
         )
@@ -55,7 +55,7 @@ fun Kawasaki(navController: NavController){
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceEvenly
         ){
-            Button(onClick = { navController.navigate("SecondPage") }) {
+            Button(onClick = { navController.navigate("HondaPage") }) {
                 Text("Next")
             }
         }
