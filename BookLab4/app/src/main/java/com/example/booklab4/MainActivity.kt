@@ -9,8 +9,12 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material.BottomNavigation
+import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
@@ -20,10 +24,14 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavHostController
@@ -40,6 +48,7 @@ import com.example.booklab4.ui.theme.BookLab4Theme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        var test = 0;
         setContent {
             BookLab4Theme {
                 // A surface container using the 'background' color from the theme
@@ -47,21 +56,25 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    val navController = rememberNavController()
-                    NavHost(navController = navController , startDestination = "HomePage"){
-                        composable("HomePage"){
-                            HomePage(navController)
-                        }
-                        composable("KawaPage"){
-                              Kawasaki(navController)
-                        }
-                        composable("HondaPage"){
-                            Honda(navController)
-                        }
-                        composable("YamahaPage"){
-                            Yamaha(navController)
-                        }
-                    }
+//                    val navController = rememberNavController()
+//                    NavHost(navController = navController , startDestination = "BottomTest"){
+//                        composable("BottomTest"){
+//                            BottomTest(navController)
+//                        }
+//                        composable("HomePage"){
+//                            HomePage(navController)
+//                        }
+//                        composable("KawaPage"){
+//                              Kawasaki(navController)
+//                        }
+//                        composable("HondaPage"){
+//                            Honda(navController)
+//                        }
+//                        composable("YamahaPage"){
+//                            Yamaha(navController)
+//                        }
+//                    }
+                    BottomNavigationBar()
                 }
             }
         }
@@ -85,6 +98,53 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
         )
     }
 }
+
+// open class BottomNavItem(val route: String, val icon: ImageVector, val label: String) {
+//    object Home : BottomNavItem("home", Icons.Default.Home, "Home")
+//    object Search : BottomNavItem("search", Icons.Default.Search, "Search")
+//    object Profile : BottomNavItem("profile", Icons.Default.Person, "Profile")
+//}
+
+//@Composable
+//fun BottomNavigationBar(navController: NavController) {
+//    BottomNavigation {
+//        val navBackStackEntry by navController.currentBackStackEntryAsState()
+//        val currentRoute = navBackStackEntry?.destination?.route
+//        val bottomNavItem = listOf(BottomNavItem.Home, BottomNavItem.Search, BottomNavItem.Profile)
+//        bottomNavItem.forEach { item ->
+//            BottomNavigationItem(
+//                selected = currentRoute == item.route,
+//                onClick = {
+//                    navController.navigate(item.route) {
+//                        popUpTo(navController.graph.startDestinationId)
+//                        launchSingleTop = true
+//                    }
+//                },
+//                icon = { Icon(item.icon, contentDescription = null) },
+//                label = { Text(item.label) }
+//            )
+//        }
+//    }
+//}
+
+//@Composable
+//fun NavigationHost(navController: NavController) {
+//    NavHost(navController, startDestination = BottomNavItem.Home.route) {
+//        composable(BottomNavItem.Home.route) { /* Home Screen UI */ }
+//        composable(BottomNavItem.Search.route) { /* Search Screen UI */ }
+//        composable(BottomNavItem.Profile.route) { /* Profile Screen UI */ }
+//    }
+//}
+
+sealed class Screens(val route : String) {
+    object Home : Screens("HomePage")
+
+    object Kawa : Screens("KawaPage")
+    object Honda : Screens("HondaPage")
+    object Yamaha : Screens("YamahaPage")
+}
+
+
 //sealed class BottomBarScreen(
 //    val route: String,
 //    val title: String,

@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.NavGraph.Companion.findStartDestination
 
 @Composable
 fun HomePage(navController: NavController){
@@ -24,7 +25,21 @@ fun HomePage(navController: NavController){
             color = Color.Blue,
             fontSize = 20.sp,
         )
-        Button(onClick = { navController.navigate("KawaPage") }) {
+//        Button(onClick = { navController.navigate("KawaPage") }) {
+//            Text("Get started with First Chapter! (Kawasaki)", fontSize = 15.sp)
+//        }
+        Button(
+            onClick = {
+
+                navController.navigate(Screens.Kawa.route) {
+                    popUpTo(navController.graph.) {
+                        saveState = true
+                    }
+                    launchSingleTop = true
+                    restoreState = true
+                }
+            }
+            ) {
             Text("Get started with First Chapter! (Kawasaki)", fontSize = 15.sp)
         }
     }
