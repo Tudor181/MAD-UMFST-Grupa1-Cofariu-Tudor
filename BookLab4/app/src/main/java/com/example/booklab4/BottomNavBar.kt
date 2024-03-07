@@ -18,6 +18,7 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.get
 
 @Composable
 fun BottomNavigationBar() {
@@ -25,6 +26,8 @@ fun BottomNavigationBar() {
     var navigationSelectedItem by remember {
         mutableIntStateOf(0)
     }
+
+    val selectedState = remember { mutableStateOf(navigationSelectedItem) }
     /**
      * by using the rememberNavController()
      * we can get the instance of the navController
@@ -41,7 +44,7 @@ fun BottomNavigationBar() {
 
                     //iterating all items with their respective indexes
                     NavigationBarItem(
-                        selected = index == navigationSelectedItem,
+                        selected = index == selectedState.value,
                         label = {
                             Text(navigationItem.label)
                         },
@@ -53,10 +56,12 @@ fun BottomNavigationBar() {
                         },
                         onClick = {
                             navigationSelectedItem = index
+                            selectedState.value = index
                             navController.navigate(navigationItem.route) {
-                                popUpTo(navController.graph.findStartDestination().id) {
-                                    saveState = true
+                                popUpTo(navController.graph.get(Screens.Home.route).id) {
+//                                    saveState = true
                                 }
+
                                 launchSingleTop = true
                                 restoreState = true
                             }
@@ -73,19 +78,19 @@ fun BottomNavigationBar() {
             modifier = Modifier.padding(paddingValues = paddingValues)) {
             composable(Screens.Home.route) {
                 //call our composable screens here
-                HomePage(navController)
+                HomePage(navController, selectedState = selectedState)
             }
             composable(Screens.Kawa.route) {
                 //call our composable screens here
-                Kawasaki(navController)
+                Kawasaki(navController, selectedState = selectedState)
             }
             composable(Screens.Honda.route) {
                 //call our composable screens here
-                Honda(navController)
+                Honda(navController, selectedState = selectedState)
             }
             composable(Screens.Yamaha.route) {
                 //call our composable screens here
-                Yamaha(navController)
+                Yamaha(navController, selectedState = selectedState)
             }
         }
     }
