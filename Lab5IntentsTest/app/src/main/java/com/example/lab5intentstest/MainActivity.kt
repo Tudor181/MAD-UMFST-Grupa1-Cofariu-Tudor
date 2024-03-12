@@ -57,13 +57,22 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun AppWithIntents(context: Context){
     var number by remember { mutableStateOf("") }
-
+    val ctx = LocalContext.current
     Column(
 
         modifier = Modifier
             .fillMaxSize()
             .padding(15.dp)) {
-        OutlinedTextField(
+
+        Button(onClick = {
+            val intentToCalculator = Intent(ctx, SecondActivity::class.java)
+
+            ctx.startActivity(intentToCalculator)
+        })
+            {
+                    Text(text = "CALCULATOR ACTIVITY")
+                }
+            OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
             value = number,
             label = { Text(text = "number to dial") },
@@ -87,7 +96,6 @@ fun AppWithIntents(context: Context){
 
                     try {
                         print("test")
-                        LocalContext
                         startActivity(context, it, null)
                     } catch (e: ActivityNotFoundException) {
                         e.printStackTrace()
