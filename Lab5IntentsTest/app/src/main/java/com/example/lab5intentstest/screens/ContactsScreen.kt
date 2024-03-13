@@ -1,5 +1,9 @@
 package com.example.lab5intentstest.screens
 
+import android.content.ActivityNotFoundException
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.provider.ContactsContract
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -25,6 +29,7 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -36,7 +41,6 @@ import kotlin.coroutines.suspendCoroutine
 
 @Composable
 fun ContactsScreen(contactsProvider: ContactsProvider){
-
     val contactsList = remember { mutableStateListOf<DContact>() }
 
     LaunchedEffect(true){
@@ -44,6 +48,7 @@ fun ContactsScreen(contactsProvider: ContactsProvider){
         contactsList.clear()
         contactsList.addAll(fetchedContacts)
     }
+
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
@@ -59,6 +64,8 @@ fun ContactsScreen(contactsProvider: ContactsProvider){
 
 @Composable
 fun ContactItem(contact: DContact) {
+    val context = LocalContext.current
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -82,17 +89,30 @@ fun ContactItem(contact: DContact) {
             )
             Spacer(modifier = Modifier.height(4.dp))
             Text(
-                text = contact.id,
+                text = "id ${contact.id}",
                 fontWeight = FontWeight.Bold,
                 fontSize = 16.sp
             )
             Spacer(modifier = Modifier.height(4.dp))
             Text(
+
                 text = contact.numbers[0].orEmpty(),
                 fontWeight = FontWeight.Bold,
-                fontSize = 16.sp
+                fontSize = 16.sp,
+                modifier = Modifier.clickable{ dial(context,contact.numbers[0].orEmpty()) }
+
             )
-            // You can add more details here, e.g., phone number, etc.
+        }
+    }
+}
+
+fun dial(ctx:Context, number:String?){
+     Intent(Intent.ACTION_DIAL ).also{
+        it.data = Uri.parse("tel:$number")
+        try {
+            ctx.startActivity(it, null)
+        } catch (e: ActivityNotFoundException) {
+            e.printStackTrace()
         }
     }
 }
