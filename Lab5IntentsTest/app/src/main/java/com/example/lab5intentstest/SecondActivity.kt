@@ -106,6 +106,9 @@ fun CalculatorComponent() {
 
     var result by remember {mutableStateOf(0)}
 
+    var test = remember {
+        mutableStateOf(1)
+    }
     val ctx = LocalContext.current
 
     Column(

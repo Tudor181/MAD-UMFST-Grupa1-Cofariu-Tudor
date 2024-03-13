@@ -12,6 +12,8 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -69,10 +71,20 @@ fun AppWithIntents(context: Context){
 
             ctx.startActivity(intentToCalculator)
         })
-            {
+        {
                     Text(text = "CALCULATOR ACTIVITY")
-                }
-            OutlinedTextField(
+        }
+
+        Button(onClick = {
+            val intentToCalculator = Intent(ctx, PhoneBook::class.java)
+
+            ctx.startActivity(intentToCalculator)
+        })
+        {
+            Text(text = "PHONE BOOK ACTIVITY")
+        }
+//        Spacer(modifier = Modifier.fillMaxHeight())
+        OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
             value = number,
             label = { Text(text = "number to dial") },
