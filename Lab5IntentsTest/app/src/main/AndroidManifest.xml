@@ -29,7 +29,7 @@
         </activity>
         <activity
             android:name=".SecondActivity"
-            android:exported="false"
+            android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.Lab5IntentsTest">
             <intent-filter>
@@ -40,7 +40,7 @@
         </activity>
         <activity
             android:name=".MotoActivity"
-            android:exported="false"
+            android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.Lab5IntentsTest">
             <intent-filter>
@@ -51,7 +51,7 @@
         </activity>
         <activity
             android:name=".PhoneBook"
-            android:exported="false"
+            android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.Lab5IntentsTest">
             <intent-filter>
@@ -62,7 +62,7 @@
         </activity>
         <activity
             android:name=".BroadcastActivity"
-            android:exported="false"
+            android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.Lab5IntentsTest">
             <intent-filter>
@@ -71,6 +71,31 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".StopWatchActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.Lab5IntentsTest">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+<!--        <receiver-->
+<!--            android:name=".hooks.StopwatchBroadcastReceiver"-->
+<!--            android:enabled="true"-->
+<!--            android:exported="false"> &lt;!&ndash; Set exported to false unless you explicitly need it to be exported &ndash;&gt;-->
+<!--            <intent-filter>-->
+<!--                &lt;!&ndash; Define the intent filter for the broadcast receiver &ndash;&gt;-->
+<!--                <action android:name="com.example.lab5intentstest.action.UPDATE_TIME" />-->
+<!--                &lt;!&ndash; Add more actions if needed &ndash;&gt;-->
+<!--            </intent-filter>-->
+<!--        </receiver>-->
+        <service
+            android:name=".service.StopwatchService"
+            android:enabled="true"
+            android:exported="false" />
 
     </application>
 

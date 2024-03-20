@@ -1,34 +1,34 @@
 package com.example.lab5intentstest.hooks
 
+import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.ContextWrapper
 import android.content.Intent
 import android.content.IntentFilter
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
+import androidx.core.content.ContextCompat.registerReceiver
+import com.example.lab5intentstest.service.StopwatchService
 
+@SuppressLint("UnspecifiedRegisterReceiverFlag")
 @Composable
-fun BatteryBroadcastReceiver(
-    onBatteryLevelChanged: (Int) -> Unit,
-    onBatteryLow: () -> Unit
+fun StopwatchBroadcastReceiver(
+    onValueReceived: (Long) -> Unit,
+//    onBatteryLow: () -> Unit
 ) {
     val context = LocalContext.current
 
     // Define the BroadcastReceiver
-    val batteryReceiver = remember {
+    val stopwatchReceiver = remember {
         object : BroadcastReceiver() {
             override fun onReceive(context: Context?, intent: Intent?) {
                 intent?.let {
-                    when (it.action) {
-                        Intent.ACTION_BATTERY_CHANGED -> {
-                            val level: Int = it.getIntExtra("level", -1)
-                            onBatteryLevelChanged(level)
-                        }
-                        Intent.ACTION_BATTERY_LOW -> {
-                            onBatteryLow()
-                        }
+                    if (it.action == StopwatchService.ACTION_UPDATE_TIME) {
+                        val elapsedTime = it.getLongExtra(StopwatchService.EXTRA_ELAPSED_TIME, 0L)
+                        onValueReceived(elapsedTime)
                     }
                 }
             }
@@ -38,13 +38,14 @@ fun BatteryBroadcastReceiver(
     // Register the BroadcastReceiver
     DisposableEffect(Unit) {
         val filter = IntentFilter().apply {
-            addAction(Intent.ACTION_BATTERY_CHANGED)
-            addAction(Intent.ACTION_BATTERY_LOW)
+            addAction(StopwatchService.ACTION_UPDATE_TIME)
         }
-        context.registerReceiver(batteryReceiver, filter, Context.RECEIVER_EXPORTED)
+        context.registerReceiver(stopwatchReceiver, filter)
+//        registerReceiver(stopwatchReceiver, filter, RECEIVER_EXPORTED)
+        
         // Unregister the BroadcastReceiver when the composable is disposed
         onDispose {
-            context.unregisterReceiver(batteryReceiver)
+            context.unregisterReceiver(stopwatchReceiver)
         }
     }
 }

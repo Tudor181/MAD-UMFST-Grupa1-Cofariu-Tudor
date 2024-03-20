@@ -92,6 +92,14 @@ fun AppWithIntents(context: Context){
         {
             Text(text = "Broadcast receiver ACTIVITY")
         }
+        Button(onClick = {
+            val intentToStopWatchActivity = Intent(ctx, StopWatchActivity::class.java)
+
+            ctx.startActivity(intentToStopWatchActivity)
+        })
+        {
+            Text(text = "STOPWATCH ACTIVITY")
+        }
 //        Spacer(modifier = Modifier.fillMaxHeight())
         OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
