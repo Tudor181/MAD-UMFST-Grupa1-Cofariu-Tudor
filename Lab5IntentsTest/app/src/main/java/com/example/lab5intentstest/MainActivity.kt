@@ -64,7 +64,8 @@ fun AppWithIntents(context: Context){
 
         modifier = Modifier
             .fillMaxSize()
-            .padding(15.dp)) {
+            .padding(15.dp))
+    {
 
         Button(onClick = {
             val intentToCalculator = Intent(ctx, SecondActivity::class.java)
@@ -82,6 +83,14 @@ fun AppWithIntents(context: Context){
         })
         {
             Text(text = "PHONE BOOK ACTIVITY")
+        }
+        Button(onClick = {
+            val intentToBroadcast = Intent(ctx, BroadcastActivity::class.java)
+
+            ctx.startActivity(intentToBroadcast)
+        })
+        {
+            Text(text = "Broadcast receiver ACTIVITY")
         }
 //        Spacer(modifier = Modifier.fillMaxHeight())
         OutlinedTextField(
@@ -118,7 +127,6 @@ fun AppWithIntents(context: Context){
                     painter = painterResource(id = R.drawable.dialer),
                     contentDescription = null,
                     modifier = Modifier.size(40.dp),
-
                     )
             }
             Button(onClick = {

@@ -68,30 +68,12 @@ class SecondActivity : ComponentActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_CODE_MOTO_ACTIVITY) {
             if (resultCode == Activity.RESULT_OK) {
-                // The MotoActivity has finished with the desired result
-                finish() // Finish the SecondActivity
+                finish()
             }
         }
     }
 }
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-
-    Column(
-        modifier = Modifier.fillMaxWidth(),
-//            .background(Color.Red),
-
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        Text(
-            text = "Hello $name!",
-            modifier = modifier,
-            color = Color.Blue
-        )
-    }
-}
 
 @Composable
 fun mySpacer(height:Boolean, value:Float = 8f){
@@ -181,23 +163,6 @@ fun CalculatorComponent() {
             color = Color.Green,
             style = TextStyle(fontSize = 50.sp),
         )
-//        mySpacer(height = true, 200f)
-//        Button(
-//            onClick = {
-//                (ctx as Activity).finish()
-//            },
-//        ) {
-////            Text(
-////                text = "Finish this activity, go back to the main one",
-////                color = Color.Black,
-////                style = TextStyle(fontSize = 20.sp),
-////            )
-//            Image(
-//                painter = painterResource(id = R.drawable.home),
-//                contentDescription = null,
-//                modifier = Modifier.size(40.dp),
-//            )
-//        }
         Box(
             modifier = Modifier
                 .fillMaxSize()
