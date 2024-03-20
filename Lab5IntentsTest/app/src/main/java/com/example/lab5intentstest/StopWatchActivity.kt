@@ -54,6 +54,7 @@ class StopWatchActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        startForegroundService(Intent(this, StopwatchService::class.java))
         bindService(Intent(this, StopwatchService::class.java), connection, BIND_AUTO_CREATE)
         startService(Intent(this,StopwatchService::class.java))
         setContent {
@@ -78,6 +79,12 @@ class StopWatchActivity : ComponentActivity() {
     }
 
     private var elapsedTime by mutableStateOf(0L)
+
+    fun stopForegroundService() {
+        val stopIntent = Intent(this, StopwatchService::class.java)
+        stopIntent.action = StopwatchService.ACTION_STOP_SERVICE
+        startService(stopIntent)
+    }
 
 //    @SuppressLint("UnspecifiedRegisterReceiverFlag")
 //    @android.support.annotation.RequiresApi(Build.VERSION_CODES.O)
@@ -114,6 +121,7 @@ class StopWatchActivity : ComponentActivity() {
                 onClick = {
                     if (isBound) {
                         stopwatchService?.stopStopwatch()
+                        stopForegroundService()
                         isBound=false
                     }else{
                         stopwatchService?.startStopwatch()
@@ -124,6 +132,7 @@ class StopWatchActivity : ComponentActivity() {
             ) {
                 Text(text = "Stop")
             }
+
         }
     }
 

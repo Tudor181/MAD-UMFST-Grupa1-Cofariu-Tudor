@@ -5,11 +5,13 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service
 import android.content.Intent
+import android.content.pm.ServiceInfo
 import android.os.Binder
 import android.os.Build
 import android.os.IBinder
 import android.util.Log
 import androidx.core.app.NotificationCompat
+import androidx.core.app.ServiceCompat
 import com.example.lab5intentstest.R
 import com.example.lab5intentstest.StopWatchActivity
 import kotlinx.coroutines.CoroutineScope
@@ -41,13 +43,27 @@ class StopwatchService : Service() {
     override fun onBind(intent: Intent?): IBinder? {
         return binder
     }
-
+    private fun showNotification() {
+        val notification = createNotification()
+        val notificationManager = getSystemService(NotificationManager::class.java)
+        notificationManager.notify(NOTIFICATION_ID, notification)
+    }
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         Log.d("StopwatchApp", "onStartCommand")
-//        startForeground(NOTIFICATION_ID, createNotification())
-
+        val not = createNotification()
+//        startForeground(NOTIFICATION_ID, not)
+//        ServiceCompat.startForeground(this,createNotification())
+        if (intent?.action == ACTION_STOP_SERVICE) {
+            stopSelf()
+            return START_NOT_STICKY
+        }
+//            startForeground(NOTIFICATION_ID, createNotification())
+//        }
+//        showNotification()
+//        return START_STICKY
+//        createNotification()
         startStopwatch()
-        return START_NOT_STICKY
+        return START_STICKY
     }
 
     override fun onDestroy() {
@@ -83,18 +99,19 @@ class StopwatchService : Service() {
         createNotificationChannel()
 
         val notificationIntent = Intent(this, StopWatchActivity::class.java)
-        val pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0)
+
+        val pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_IMMUTABLE)
 
         val stopIntent = Intent(this, StopwatchService::class.java)
         stopIntent.action = ACTION_STOP_SERVICE
-        val stopPendingIntent = PendingIntent.getService(this, 0, stopIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+        val stopPendingIntent = PendingIntent.getService(this, 0, stopIntent, PendingIntent.FLAG_IMMUTABLE)
 
         return NotificationCompat.Builder(this, CHANNEL_ID)
             .setContentTitle("Stopwatch Service")
             .setContentText("Service is running")
-            .setSmallIcon(R.drawable.spotify)
+//            .setSmallIcon(R.drawable.github)
             .setContentIntent(pendingIntent)
-            .addAction(R.drawable.yzf_r7, "Stop Service", stopPendingIntent)
+            .addAction(R.drawable.github,"Stop Service", stopPendingIntent)
             .build()
     }
 
@@ -102,7 +119,7 @@ class StopwatchService : Service() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(
                 CHANNEL_ID,
-                "Stopwatch Service Channel",
+                "Foreground Service Channel",
                 NotificationManager.IMPORTANCE_DEFAULT
             )
             val notificationManager = getSystemService(NotificationManager::class.java)
