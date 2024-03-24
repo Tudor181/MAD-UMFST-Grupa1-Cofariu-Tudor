@@ -58,7 +58,10 @@ fun Kawasaki(navController: NavController, selectedState: MutableState<Int>){
         ){
             Button(onClick = {
                 selectedState.value++
-                navController.navigate("HondaPage") }) {
+                navController.navigate("HondaPage")
+                }
+            )
+            {
                 Text("Next")
             }
         }

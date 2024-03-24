@@ -1,4 +1,4 @@
-package com.example.lab5intentstest.components
+package com.example.sosapp.feature.GPS.ui
 
 import android.Manifest
 import android.app.Activity
@@ -6,17 +6,14 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
-import android.provider.ContactsContract
 import android.provider.Settings
+import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -28,43 +25,54 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
-import com.example.lab5intentstest.ContactsProvider
-import com.example.lab5intentstest.R
-import com.example.lab5intentstest.enums.NeededPermission
-import com.example.lab5intentstest.screens.ContactsScreen
+import com.example.sosapp.app.data.NeededPermission
+import com.example.sosapp.common.PermissionAlertDialog
 
 
 @Composable
-fun Permissions(contactsProvider: ContactsProvider) {
+fun LocationPermissions(
+    onGrantedPermission: ()->Unit
+) {
 
     val activity = LocalContext.current as Activity
     var grantedAccess by remember {
         mutableStateOf(false)
     }
 
+    val permissions = arrayOf(
+        NeededPermission.ACCESS_FINE_LOCATION.permission,
+        NeededPermission.ACCESS_COARSE_LOCATION.permission,
+    )
+
     val permissionDialog = remember {
         mutableStateListOf<NeededPermission>()
+    }
+    val launcherMultiplePermissions = rememberLauncherForActivityResult(
+        ActivityResultContracts.RequestMultiplePermissions()
+    ) { permissionMaps ->
+        val areGranted = permissionMaps.values.reduce { acc, next -> acc && next }
+        if (areGranted) {
+            onGrantedPermission()
+//            Toast.makeText(context, "Permission Granted", Toast.LENGTH_SHORT).show()
+
+        } else {
+//            Toast.makeText(context, "Permission Denied", Toast.LENGTH_SHORT).show()
+            permissionDialog.add(NeededPermission.ACCESS_FINE_LOCATION)
+        }
     }
 
     val contactsPermissionLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission(),
         onResult = { isGranted ->
             if (!isGranted)
-                permissionDialog.add(NeededPermission.READ_CONTACTS)
+                permissionDialog.add(NeededPermission.ACCESS_FINE_LOCATION)
+            else onGrantedPermission()
         }
     )
 
-    fun test(): Boolean {
-        return true
-    }
-
-    if(grantedAccess){
-        ContactsScreen(contactsProvider = contactsProvider)
-    }
-    else {
+    if(!grantedAccess) {
         Column(
             modifier = Modifier
                 .fillMaxSize(),
@@ -74,37 +82,44 @@ fun Permissions(contactsProvider: ContactsProvider) {
                 Alignment.CenterVertically
             )
         ) {
-            Button(
-                onClick = {
-                    contactsPermissionLauncher.launch(NeededPermission.READ_CONTACTS.permission)
-                }
-            ) {
-                Text(text = "Request contacts permission")
-            }
+//            Button(
+//                onClick = {
+//                    contactsPermissionLauncher.launch(NeededPermission.READ_LOCATION.permission)
+//                }
+//            ) {
+//                Text(text = "Request contacts permission")
+//            }
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.padding(12.dp)
             ) {
                 Button(onClick = {
-                    val permissionCheckResult = ContextCompat.checkSelfPermission(
-                        activity as Context,
-                        Manifest.permission.READ_CONTACTS
-                    )
+//                    val permissionCheckResult = ContextCompat.checkSelfPermission(
+//                        activity as Context,
+//                        NeededPermission.READ_LOCATION.permission
+//                    )
+                    val permissionsCheckResult = permissions.all {
+                        ContextCompat.checkSelfPermission(
+                            activity as Context,
+                            it
+                        ) == PackageManager.PERMISSION_GRANTED
+                    }
 
-                    if (permissionCheckResult == PackageManager.PERMISSION_GRANTED) {
+                    if (permissionsCheckResult) {
                         grantedAccess = true
+                        onGrantedPermission()
                     } else {
                         // Request a permission
-                        contactsPermissionLauncher.launch(NeededPermission.READ_CONTACTS.permission)
+                        launcherMultiplePermissions.launch(permissions)
+
+//                        contactsPermissionLauncher.launch(NeededPermission.READ_LOCATION.permission)
                     }
 
                 }) {
-                    Text(text = "Open Contacts")
+                    Text(text = "Show Map")
                 }
 
             }
-
-
         }
     }
 
