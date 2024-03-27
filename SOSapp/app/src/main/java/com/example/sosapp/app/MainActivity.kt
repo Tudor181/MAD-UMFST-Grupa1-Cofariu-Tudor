@@ -10,6 +10,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -77,20 +78,20 @@ class MainActivity : ComponentActivity() {
 
         setContent {
 
-            var currentLocation by remember { mutableStateOf(LatLng(0.0, 0.0)) }
+            var currentLocation = remember { mutableStateOf(LatLng(0.0, 0.0)) }
             val cameraPositionState: CameraPositionState = rememberCameraPositionState {
-                position = CameraPosition.fromLatLngZoom(currentLocation, 10f)
+                position = CameraPosition.fromLatLngZoom(currentLocation.value, 10f)
             }
 
             locationCallback = object : LocationCallback() {
                 override fun onLocationResult(p0: LocationResult) {
                     super.onLocationResult(p0)
                     for (location in p0.locations) {
-                        currentLocation = LatLng(location.latitude, location.longitude)
+                        currentLocation.value = LatLng(location.latitude, location.longitude)
 
-                        cameraPositionState.position = CameraPosition.fromLatLngZoom(
-                            currentLocation, cameraPositionState.position.zoom
-                        )
+//                        cameraPositionState.position = CameraPosition.fromLatLngZoom(
+//                            currentLocation, cameraPositionState.position.zoom
+//                        )
                     }
                 }
             }

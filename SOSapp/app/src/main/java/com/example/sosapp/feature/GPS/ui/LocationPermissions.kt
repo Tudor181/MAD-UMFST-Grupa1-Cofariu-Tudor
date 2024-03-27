@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -33,7 +34,8 @@ import com.example.sosapp.common.PermissionAlertDialog
 
 @Composable
 fun LocationPermissions(
-    onGrantedPermission: ()->Unit
+    onCheckedPermissions: ()->Unit,
+    onGrantedPermissions: () -> Unit
 ) {
 
     val activity = LocalContext.current as Activity
@@ -49,12 +51,13 @@ fun LocationPermissions(
     val permissionDialog = remember {
         mutableStateListOf<NeededPermission>()
     }
+
     val launcherMultiplePermissions = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
     ) { permissionMaps ->
         val areGranted = permissionMaps.values.reduce { acc, next -> acc && next }
         if (areGranted) {
-            onGrantedPermission()
+            onGrantedPermissions()
 //            Toast.makeText(context, "Permission Granted", Toast.LENGTH_SHORT).show()
 
         } else {
@@ -68,11 +71,35 @@ fun LocationPermissions(
         onResult = { isGranted ->
             if (!isGranted)
                 permissionDialog.add(NeededPermission.ACCESS_FINE_LOCATION)
-            else onGrantedPermission()
+            else onGrantedPermissions()
         }
     )
 
-    if(!grantedAccess) {
+    LaunchedEffect(true){
+//        val fetchedContacts = contactsProvider.getContacts()
+//        contactsList.clear()
+//        contactsList.addAll(fetchedContacts)
+        if(!grantedAccess){
+            val permissionsCheckResult = permissions.all {
+                ContextCompat.checkSelfPermission(
+                    activity as Context,
+                    it
+                ) == PackageManager.PERMISSION_GRANTED
+            }
+
+            if (permissionsCheckResult) {
+                grantedAccess = true
+                onCheckedPermissions()
+            } else {
+                // Request a permission
+                launcherMultiplePermissions.launch(permissions)
+
+//                        contactsPermissionLauncher.launch(NeededPermission.READ_LOCATION.permission)
+            }
+        }
+    }
+
+    if(!grantedAccess && false) {
         Column(
             modifier = Modifier
                 .fillMaxSize(),
@@ -107,7 +134,7 @@ fun LocationPermissions(
 
                     if (permissionsCheckResult) {
                         grantedAccess = true
-                        onGrantedPermission()
+                        onCheckedPermissions()
                     } else {
                         // Request a permission
                         launcherMultiplePermissions.launch(permissions)

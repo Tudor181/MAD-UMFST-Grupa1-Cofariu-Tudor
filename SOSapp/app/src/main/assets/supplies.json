@@ -1,0 +1,28 @@
+{
+    "emergency_supplies": [
+        {
+            "name": "First Aid Kit",
+            "description": "A kit containing medical supplies for providing first aid in emergencies."
+        },
+        {
+            "name": "Flashlight",
+            "description": "A portable electric light source powered by batteries."
+        },
+        {
+            "name": "Bottled Water",
+            "description": "Clean drinking water stored in bottles for emergency hydration."
+        },
+        {
+            "name": "Non-perishable Food",
+            "description": "Food items that do not require refrigeration and have a long shelf life."
+        },
+        {
+            "name": "Emergency Blanket",
+            "description": "A compact, lightweight blanket made of heat-reflective material."
+        },
+        {
+            "name": "Multi-tool",
+            "description": "A versatile tool containing multiple functions, such as pliers, knives, and screwdrivers."
+        }
+    ]
+}

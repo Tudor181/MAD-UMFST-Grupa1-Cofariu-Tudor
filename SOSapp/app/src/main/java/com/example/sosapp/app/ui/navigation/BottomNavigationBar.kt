@@ -20,14 +20,20 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.get
+import com.example.sosapp.app.ui.screens.EmergencyContactsScreen
+import com.example.sosapp.app.ui.screens.EmergencySuppliesScreen
 import com.example.sosapp.app.ui.screens.MainScreen
 import com.example.sosapp.app.ui.screens.MapScreen
+import com.example.sosapp.app.ui.screens.MyVehicleScreen
 import com.example.sosapp.app.ui.screens.Screens
+import com.example.sosapp.app.ui.screens.SettingsScreen
+import com.example.sosapp.app.ui.screens.VehicleDiagnoseScreen
+import com.example.sosapp.feature.VehicleDiagnose.ui.components.VehicleDiagnoseButton
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.CameraPositionState
 
 @Composable
-fun BottomNavigationBar(currentLocation:LatLng, cameraPositionState: CameraPositionState, locationRequired:MutableState<Boolean>, startLocationUpdates:()->Unit) {
+fun BottomNavigationBar(currentLocation:MutableState<LatLng>, cameraPositionState: CameraPositionState, locationRequired:MutableState<Boolean>, startLocationUpdates:()->Unit) {
 //initializing the default selected item
 //    var navigationSelectedItem by remember {
 //        mutableIntStateOf(0)
@@ -63,9 +69,12 @@ fun BottomNavigationBar(currentLocation:LatLng, cameraPositionState: CameraPosit
                         onClick = {
                             navigationSelectedItem.value = index
                             navController.navigate(navigationItem.route) {
-                                popUpTo(navController.graph.get(Screens.MainScreen.route).id) {
+//                                popUpTo(navController.graph.get(Screens.MainScreen.route).id) {
 //                                    saveState = true
-                                }
+//                                }
+//                                popUpTo(navController.graph.) {
+//                                    saveState = true
+//                                }
 
                                 launchSingleTop = true
                                 restoreState = true
@@ -83,16 +92,32 @@ fun BottomNavigationBar(currentLocation:LatLng, cameraPositionState: CameraPosit
             modifier = Modifier.padding(paddingValues = paddingValues)) {
             composable(Screens.MainScreen.route) {
                 //call our composable screens here
-                MainScreen(navController, selectedBottomNavigationItem = navigationSelectedItem)
+                MainScreen(navController, selectedBottomNavigationItem = navigationSelectedItem, currentLocation)
             }
             composable(Screens.MapScreen.route) {
                 //call our composable screens here
                 MapScreen(navController, selectedBottomNavigationItem = navigationSelectedItem,currentLocation, cameraPositionState,locationRequired,startLocationUpdates  )
             }
-//            composable(Screens.Honda.route) {
-//                //call our composable screens here
-//                Honda(navController, selectedState = selectedState)
-//            }
+            composable(Screens.SettingsScreen.route) {
+                //call our composable screens here
+                SettingsScreen(navController, selectedBottomNavigationItem = navigationSelectedItem)
+            }
+            composable(Screens.EmergencyContactsScreen.route) {
+                //call our composable screens here
+                EmergencyContactsScreen(navController)
+            }
+            composable(Screens.VehicleDiagnoseScreen.route) {
+                //call our composable screens here
+                VehicleDiagnoseScreen(navController)
+            }
+            composable(Screens.EmergencySuppliesScreen.route) {
+                //call our composable screens here
+                EmergencySuppliesScreen(navController)
+            }
+            composable(Screens.MyVehicleScreen.route) {
+                //call our composable screens here
+                MyVehicleScreen(navController)
+            }
 //            composable(Screens.Yamaha.route) {
 //                //call our composable screens here
 //                Yamaha(navController, selectedState = selectedState)

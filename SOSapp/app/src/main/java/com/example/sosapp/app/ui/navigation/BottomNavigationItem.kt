@@ -5,6 +5,7 @@ import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Place
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.example.sosapp.app.ui.screens.Screens
 
@@ -26,6 +27,11 @@ data class BottomNavigationItem(
                 label = "Map",
                 icon = Icons.Filled.Place,
                 route = Screens.MapScreen.route
+            ),
+            BottomNavigationItem(
+                label = "Settings",
+                icon = Icons.Filled.Settings,
+                route = Screens.SettingsScreen.route
             ),
 //            BottomNavigationItem(
 //                label = "Honda",
